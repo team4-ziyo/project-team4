@@ -1,0 +1,20 @@
+---
+# zerodowntime.chrony/vars/ubuntu.yml
+
+#? chrony__daemon_environment_file:
+#?   type: string
+#?   description: Environment file path.
+#?   required: True
+chrony__daemon_environment_file: /etc/default/chrony
+
+#? chrony__service_name:
+#?   type: string
+#?   description: Service name.
+#?   required: True
+chrony__service_name: chrony
+
+#? chrony__config_path:
+#?   type: string
+#?   description: Path to chrony configuration files.
+#?   required: True
+chrony__config_path: /etc/chrony

@@ -1,0 +1,49 @@
+---
+# zerodowntime.chrony/tasks/main.yml
+
+- name: Make sure server variables will not collide
+  fail:
+    msg: "Variables: 'chrony__ntp_servers_custom' and 'chrony__ntp_servers' cannot be used at the same time"
+  when:
+    - chrony__ntp_servers
+    - chrony__ntp_servers_custom
+
+- name: Load a variable files based on the OS type
+  include_vars: "{{ vars_file }}"
+  vars:
+    vars_file: "{{ lookup('first_found', lookup_args, errors='ignore') }}"
+    lookup_args:
+      paths:
+        - vars/
+      files:
+        - "{{ ansible_distribution|lower }}.yml"
+        - "{{ ansible_distribution|lower }}-{{ ansible_distribution_major_version|lower }}.yml"
+        - "{{ ansible_distribution|lower }}-{{ ansible_distribution_version.replace('.', '-')|lower }}.yml"
+        - "{{ ansible_os_family|lower }}.yml"
+        - "{{ ansible_distribution|lower }}-{{ ansible_distribution_version.replace('.', '-')|lower }}"
+        - "{{ ansible_distribution|lower }}{{ ansible_distribution_major_version|int }}"
+  when: (vars_file)
+  tags:
+    - always
+
+- name: Include playbook for installation
+  import_tasks: install.yml
+
+- name: Include playbook for configure
+  import_tasks: configure.yml
+
+- name: Ensure that service is running
+  service:
+    name: "{{ chrony__service_name }}"
+    state: started
+  tags:
+    - chrony
+    - chrony::running
+
+- name: Ensure that chrony service is enabled
+  service:
+    name: "{{ chrony__service_name }}"
+    enabled: true
+  tags:
+    - chrony
+    - chrony::enabled

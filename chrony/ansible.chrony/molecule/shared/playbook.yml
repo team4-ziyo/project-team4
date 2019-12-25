@@ -1,0 +1,16 @@
+---
+
+- name: Converge
+  hosts: all
+  become: true
+
+  pre_tasks:
+
+    - name: apt-get update
+      apt:
+        update_cache: true
+      when: ansible_distribution == 'Ubuntu'
+      changed_when: false
+
+  roles:
+    - role: zerodowntime.chrony

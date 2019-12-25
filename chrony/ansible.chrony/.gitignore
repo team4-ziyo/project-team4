@@ -1,0 +1,3 @@
+**/*.pyc
+molecule/*/tests/__pycache__
+molecule/**/pytestdebug.log

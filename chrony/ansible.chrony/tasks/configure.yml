@@ -1,0 +1,38 @@
+---
+# zerodowntime.chrony/tasks/configure.yml
+
+- name: Configure chrony conf file
+  vars:
+    chrony___config_template:
+      - "templates/config/chrony.conf.{{ ansible_distribution|lower }}{{ ansible_distribution_major_version|int }}.j2"
+      - "templates/config/chrony.conf.{{ ansible_distribution|lower }}.j2"
+  template:
+    src: "{{ lookup('first_found', chrony___config_template) }}"
+    dest: "{{ chrony__config_path }}/chrony.conf"
+    owner: root
+    group: root
+    mode: 0644
+    seuser: system_u
+    serole: object_r
+    setype: etc_t
+  notify:
+    - restart chrony
+  tags:
+    - chrony
+    - configure
+
+- name: Configure deaemon options
+  template:
+    src: 'templates/sysconfig/chronyd.j2'
+    dest: "{{ chrony__daemon_environment_file }}"
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+    seuser: 'system_u'
+    serole: 'object_r'
+    setype: 'etc_t'
+  notify:
+    - restart chrony
+  tags:
+    - chrony
+    - configure

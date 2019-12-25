@@ -1,0 +1,102 @@
+---
+# https://molecule.readthedocs.io/en/latest/configuration.html
+dependency:
+  name: galaxy
+  options:
+    role-file: molecule/shared/requirements.yml
+
+
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+
+
+lint:
+  name: yamllint
+  options:
+    config-file: molecule/shared/.yaml_lint.yml
+
+
+platforms:
+  # https://app.vagrantup.com/boxes/search?provider=libvirt
+  - name: "${ROLE_CI_PREFIX:-l}-centos7"
+    box: centos/7
+    interfaces:
+      - network_name: private_network
+        auto_config: true
+        type: dhcp
+    provider_options:
+      memory: 1024
+      cpus: 1
+      uri: "'qemu:///system'"
+    groups:
+      - centos
+
+  - name: "${ROLE_CI_PREFIX:-l}-ubuntu1604"
+    box: generic/ubuntu1604
+    interfaces:
+      - network_name: private_network
+        auto_config: true
+        type: dhcp
+    provider_options:
+      memory: 1024
+      cpus: 1
+      uri: "'qemu:///system'"
+    groups:
+      - ubuntu
+
+  - name: "${ROLE_CI_PREFIX:-l}-ubuntu1804"
+    box: generic/ubuntu1804
+    interfaces:
+      - network_name: private_network
+        auto_config: true
+        type: dhcp
+    provider_options:
+      memory: 1024
+      cpus: 1
+      uri: "'qemu:///system'"
+    groups:
+      - ubuntu
+
+provisioner:
+  name: ansible
+  log: true
+  playbooks:
+    converge: ../shared/playbook.yml
+  config_options:
+    defaults:
+      log_path: "${CLONE_DIR:-.}/ansible.log"
+      stdout_callback: debug
+      verbosity: 2
+    diff:
+      always: true
+  inventory:
+    group_vars:
+      ubuntu:
+        ansible_python_interpreter: /usr/bin/python3
+  lint:
+    name: ansible-lint
+
+
+scenario:
+  name: libvirt
+  test_sequence:
+    - lint
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+    - destroy
+
+
+verifier:
+  name: testinfra
+  directory: ../shared/tests/
+  lint:
+    name: flake8

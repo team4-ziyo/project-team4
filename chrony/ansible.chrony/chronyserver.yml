@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: true
+  roles:
+
+   - role: zerodowntime.chrony
+     chrony__ntp_servers:
+     - 'prdx-ntp14.ziyotek4.local'
+     - 'prdx-ntp24.ziyotek4.local'

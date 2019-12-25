@@ -1,0 +1,25 @@
+---
+# zerodowntime.chrony/meta/main.yml
+
+dependencies: []
+
+galaxy_info:
+  author: ZeroDowntime Team <ansible@zerodowntime.pl>
+  company: ZeroDowntime Sp. z o.o.
+  role_name: chrony
+  description: Role to install and configure chrony - Network Time Protocol client & server
+  license: Apache License 2.0
+
+  min_ansible_version: 2.7
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Ubuntu
+      versions:
+        - bionic
+        - xenial
+  galaxy_tags:
+    - system
+    - chrony
+    - time

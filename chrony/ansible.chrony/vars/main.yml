@@ -1,0 +1,8 @@
+---
+# zerodowntime.chrony/vars/main.yml
+
+#? chrony__package_name:
+#?   type: string
+#?   description: Package name to be installed.
+#?   required: True
+chrony__package_name: chrony

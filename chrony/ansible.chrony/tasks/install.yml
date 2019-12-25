@@ -1,0 +1,29 @@
+---
+# zerodowntime.chrony/tasks/install.yml
+
+- name: Install chrony packages
+  become: true
+  package:
+    name: "{{ chrony__package_name }}"
+    state: "{{ chrony__package_state }}"
+  register: chrony___install
+  until: chrony___install is success
+  retries: 3
+  delay: 2
+  tags:
+    - chrony
+    - install
+
+- name: Create config dir
+  become: true
+  file:
+    path: "{{ chrony__config_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+    recurse: false
+  when: ansible_distribution == 'Ubuntu'
+  tags:
+    - chrony
+    - install

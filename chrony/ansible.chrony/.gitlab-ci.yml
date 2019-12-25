@@ -1,0 +1,47 @@
+---
+# https://git.zdt.io/misc/gitlab_templates
+variables:
+  PY_COLORS: "1"
+
+include:
+  - project: 'misc/gitlab_templates'
+    ref: master
+    file: '/molecule/.base-template.yml'
+  - project: 'misc/gitlab_templates'
+    ref: master
+    file: '/.clone-before-script-template.yml'
+
+stages:
+  - libvirt.latest-all
+  - libvirt.latest-molecule
+  - libvirt.latest-ansible
+  - libvirt.ansible-2.8.0-molecule-2.22.0
+# job libvirt
+libvirt.latest:
+  extends: .molecule.default
+  stage: libvirt.latest-all
+  image: zerodowntime/gitlab_runner_executor_molecule:ansible-2.8
+  script:
+    - molecule test -s libvirt
+
+# job libvirt
+libvirt.latest-molecule:
+  extends: .molecule.default
+  stage: libvirt.latest-molecule
+  image: zerodowntime/gitlab_runner_executor_molecule:ansible-2.8.0
+  script:
+    - molecule test -s libvirt
+
+libvirt.latest-ansible:
+  extends: .molecule.default
+  stage: libvirt.latest-ansible
+  image: zerodowntime/gitlab_runner_executor_molecule:ansible-2.8-molecule-2.22.0
+  script:
+    - molecule test -s libvirt
+
+libvirt.ansible-2.8.0-molecule-2.22.0:
+  extends: .molecule.default
+  stage: libvirt.ansible-2.8.0-molecule-2.22.0
+  image: zerodowntime/gitlab_runner_executor_molecule:ansible-2.8.0-molecule-2.22.0
+  script:
+    - molecule test -s libvirt

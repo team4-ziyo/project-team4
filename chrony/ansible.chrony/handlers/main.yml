@@ -1,0 +1,7 @@
+---
+# zerodowntime.chrony/handlers/main.yml
+
+- name: restart chrony
+  service:
+    name: "{{ chrony__service_name }}"
+    state: restarted

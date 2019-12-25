@@ -1,0 +1,20 @@
+---
+# zerodowntime.chrony/vars/centos.yml
+
+#? chrony__daemon_environment_file:
+#?   type: string
+#?   description: Environment file path.
+#?   required: True
+chrony__daemon_environment_file: /etc/sysconfig/chronyd
+
+#? chrony__service_name:
+#?   type: string
+#?   description: Service name.
+#?   required: True
+chrony__service_name: chronyd
+
+#? chrony__config_path:
+#?   type: string
+#?   description: Path to chrony configuration files.
+#?   required: True
+chrony__config_path: /etc

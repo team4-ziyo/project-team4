@@ -1,0 +1,54 @@
+---
+# zerodowntime.chrony/defaults/main.yml
+
+#? chrony__package_state:
+#?   type: string
+#?   description: Whether to install the package or not
+#?   required: True
+chrony__package_state: present
+
+#? chrony__allow_clients:
+#?   type: list
+#?   description: List of NTP clients, that are allowed to access to 'chronyd'
+#?   required: True
+# Example:
+# chrony__allow_clients:
+#  - 10.10.0.0/16
+#  - 192.168.0.0/16
+chrony__allow_clients: !!null
+
+#? chrony__daemon_options:
+#?   type: string
+#?   description: List of daemon start options
+#?   required: True
+chrony__daemon_options: '-4'
+
+#? chrony__ntp_servers:
+#?   type: list
+#?   description: List of NTP servers
+#?                Options are hard-coded inside a templates
+#?   required: True
+chrony__ntp_servers:
+#  - 0.pool.ntp.org
+#  - 1.pool.ntp.org
+#  - 2.pool.ntp.org
+#  - 3.pool.ntp.org
+  - prdx-ntp14.ziyotek4.local
+  - prdx-ntp24.ziyotek4.local
+
+#? chrony__ntp_servers_custom:
+#?   type: list
+#?   description: List of NTP servers with possibility of defining custom options.
+#?                `chrony__ntp_servers` was left in template + defaults for backward compatibility.
+#?                Use that variable if you want to define/not define custom options for each server.
+#?                If either `chrony__ntp_servers` or `chrony__ntp_servers_custom` are not used, default template according to your OS will be load
+#?   required: True
+chrony__ntp_servers_custom: []
+# - name: ntp.ubuntu.org
+#   options: 'iburst maxsources 4'
+# - name: 0.ubuntu.pool.ntp.org
+#   options: 'iburst maxsources 1'
+# - name: 1.ubuntu.pool.ntp.org
+#   options: 'iburst maxsources 1'
+# - name: 2.ubuntu.pool.ntp.org
+#   options: 'iburst maxsources 2'

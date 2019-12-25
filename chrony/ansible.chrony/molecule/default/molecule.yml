@@ -1,0 +1,93 @@
+---
+# https://molecule.readthedocs.io/en/latest/configuration.html
+dependency:
+  name: galaxy
+  options:
+    role-file: molecule/shared/requirements.yml
+
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+
+lint:
+  name: yamllint
+  options:
+    config-file: molecule/shared/.yaml_lint.yml
+
+platforms:
+  # https://app.vagrantup.com/boxes/search?provider=virtualbox
+  - name: v-centos7
+    box: centos/7
+    interfaces:
+      - network_name: private_network
+        auto_config: true
+        type: dhcp
+    provider_options:
+      memory: 1024
+      cpus: 1
+    groups:
+      - centos
+
+  - name: v-ubuntu1604
+    box: ubuntu/xenial64
+    interfaces:
+      - network_name: private_network
+        auto_config: true
+        type: dhcp
+    provider_options:
+      memory: 1024
+      cpus: 1
+    groups:
+      - ubuntu
+
+  - name: v-ubuntu1804
+    box: ubuntu/bionic64
+    interfaces:
+      - network_name: private_network
+        auto_config: true
+        type: dhcp
+    provider_options:
+      memory: 1024
+      cpus: 1
+    groups:
+      - ubuntu
+
+
+provisioner:
+  name: ansible
+  log: true
+  playbooks:
+    converge: ../shared/playbook.yml
+  # config_options:
+  #   defaults:
+  #     verbosity: 2
+  #   diff:
+  #     always: true
+  inventory:
+    group_vars:
+      ubuntu:
+        ansible_python_interpreter: /usr/bin/python3
+  lint:
+    name: ansible-lint
+
+scenario:
+  name: default
+  test_sequence:
+    - lint
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+    - destroy
+
+verifier:
+  name: testinfra
+  directory: ../shared/tests/
+  lint:
+    name: flake8
