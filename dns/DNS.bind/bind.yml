@@ -1,0 +1,8 @@
+---
+- name: dns master
+  hosts: dns
+  user: ansible
+  become: true
+  roles:
+    - /home/ansible/roles/DNS.bind 
+
