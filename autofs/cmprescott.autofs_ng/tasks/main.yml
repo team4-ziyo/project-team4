@@ -1,0 +1,17 @@
+---
+# tasks file for ansible-role-autofs
+
+
+# ----- Setup -----
+
+- name: "Setup | yum | ensure autofs's package(s) present"
+  yum: name="{{ autofs_pkgs[ ansible_system ] }}"
+  when: ansible_pkg_mgr == 'yum'
+
+
+# ----- Service -----
+- name: "Svc   |linux| ensure autofs starts at boot"
+  service: name=autofs state=started enabled=yes
+  when: ansible_system == 'Linux' and ansible_connection != 'chroot'
+
+

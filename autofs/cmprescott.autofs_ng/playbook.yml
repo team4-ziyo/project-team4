@@ -1,0 +1,7 @@
+---
+- name: let us run autofs
+  hosts: autofs
+  become: yes
+  user: ansible
+  roles:
+     - /home/ansible/.ansible/roles/cmprescott.autofs_ng

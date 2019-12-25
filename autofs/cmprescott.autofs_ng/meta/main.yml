@@ -1,0 +1,24 @@
+galaxy_info:
+  role_name: autofs-ng
+  author: Ben Yanke
+  description: Installs and configures autofs. Based on cmprescott/ansible-role-autofs with bugfixes
+  issue_tracker_url: https://github.com/benyanke/ansible-role-autofs/issues
+  license: BSD
+  min_ansible_version: 1.9
+  platforms:
+  - name: GenericLinux
+    versions:
+    - any
+  categories:
+  - system
+
+  galaxy_tags:
+    - autofs
+    - smb
+    - glusterfs
+    - cifs
+    - nfs
+    - network-mounts
+    - network-shares
+
+dependencies: []
