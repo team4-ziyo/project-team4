@@ -1,0 +1,7 @@
+---
+- name: let us Samba once more
+  hosts: samba
+  become: yes
+  user: ansible
+  roles:
+    - /home/ansible/.ansible/roles/bertvv.samba
