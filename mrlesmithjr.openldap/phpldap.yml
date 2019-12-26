@@ -1,0 +1,7 @@
+---
+
+- name: Ldap
+  hosts: prdx-ldap14.ziyotek4.local
+  become: yes
+  roles:
+    - /home/ansible/roles/mrlesmithjr.openldap
