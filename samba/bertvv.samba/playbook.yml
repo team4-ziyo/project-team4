@@ -1,7 +1,7 @@
 ---
 - name: let us Samba once more
-  hosts: samba
+  hosts: prdx-samba14.ziyotek4.local 
   become: yes
   user: ansible
   roles:
-    - /home/ansible/.ansible/roles/bertvv.samba
+    - /home/ansible/project-team4/project-team4/samba/bertvv.samba
