@@ -15,7 +15,7 @@
   when: ansible_os_family == 'RedHat'
 
 - name: Ensure directories to export exist
-  file: 'path="{{ item.strip().split()[0] }}" state=directory'
+  file: 'path="{{ item.strip().split()[0] }}" owner=ansible group=ansible state=directory'
   with_items: "{{ nfs_exports }}"
 
 - name: Copy exports file.

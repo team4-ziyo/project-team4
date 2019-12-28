@@ -21,3 +21,11 @@
       yum:
         name: sysstat
         state: latest
+    - name: autofs
+      yum:
+        name: autofs
+        state: present
+    - name: nfs-utils
+      yum: 
+        name: nfs-utils
+        state: present 

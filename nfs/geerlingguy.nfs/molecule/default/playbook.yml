@@ -1,6 +1,6 @@
 ---
 - name: Converge
-  hosts: nfs_server
+  hosts: prdx-nfs14.ziyotek4.local
   become: true
 
   pre_tasks:
@@ -10,4 +10,4 @@
       changed_when: false
 
   roles:
-    - role: geerlingguy.nfs
+    - role: /home/ansible/project-team4/project-team4/nfs/geerlingguy.nfs
