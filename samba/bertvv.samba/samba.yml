@@ -1,0 +1,7 @@
+---
+- name: let us Samba once more
+  hosts: prdx-samba14.ziyotek4.local 
+  become: yes
+  user: ansible
+  roles:
+    - /home/ansible/project-team4/project-team4/samba/bertvv.samba
