@@ -1,0 +1,34 @@
+---
+# tasks file for apache-server
+- name: Install Apache
+  yum: name={{ item }} state=present
+  with_items:
+    - httpd
+    - mod_ssl
+
+- name: Enable and start Apache
+  systemd:
+    name: httpd
+    state: started
+    enabled: true
+
+- name: Open port 80
+  firewalld:
+    service: http
+    permanent: true
+    state: enabled
+    immediate: yes
+
+- name: Open port 443
+  firewalld:
+    service: https
+    permanent: true
+    state: enabled
+    immediate: yes
+
+#- name: Set SELinux boolean for Apache
+#  seboolean:
+#    name: httpd_can_network_connect
+#    state: yes
+#    persistent: yes
+

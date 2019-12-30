@@ -1,0 +1,7 @@
+---
+# vars file for mariadb-server
+mysql_root_password: "password"
+
+
+#ansible-vault encrypt mariadb-server/vars/main.yml
+#ansible-vault edit  mariadb-server/vars/main.yml

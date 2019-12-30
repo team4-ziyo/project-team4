@@ -1,0 +1,72 @@
+---
+# tasks file for mariadb-server
+- name: install mariadb-server
+  yum: name={{ item }} state=present
+  with_items:
+    - mariadb
+    - mariadb-server
+    - MySQL-python
+    - mysql-connector-python
+
+- name: start mysqld
+  systemd:
+    name: mariadb
+    state: started
+    enabled: true
+
+- name: open port 3306
+  firewalld:
+    port: 3306/tcp
+    permanent: true
+    state: enabled
+    immediate: yes
+  notify: restart firewalld
+
+- name: check if root password for mariadb is set
+  shell: >
+    mysqladmin -u root status
+  changed_when: false
+  failed_when: false
+  register: root_pwd_check
+
+- name: set mariadb root password for first time
+  mysql_user:
+    name: root
+    password: "{{ mysql_root_password }}"
+    host_all: yes
+    state: present
+  when: root_pwd_check.rc == 0
+
+- name: flush privileges
+  command: 'mysql -ne "{{ item }}" -uroot -p"{{ mysql_root_password }}"'
+  with_items:
+    - FLUSH PRIVILEGES
+  changed_when: False
+
+- name: Remove anonymous users
+  mysql_user:
+    name: ''
+    host_all: yes
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    state: absent
+
+- name: Remove test database and access to it
+  mysql_db:
+    name: test
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    state: absent
+
+- name: Disallow root login remotely
+  command: 'mysql -ne "{{ item }}" -uroot -p"{{ mysql_root_password }}"'
+  with_items:
+    - DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')
+  changed_when: False
+
+- name: flush privileges
+  command: 'mysql -ne "{{ item }}" -uroot -p"{{ mysql_root_password }}"'
+  with_items:
+    - FLUSH PRIVILEGES
+  changed_when: False
+

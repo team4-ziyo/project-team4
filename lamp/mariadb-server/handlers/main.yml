@@ -1,0 +1,17 @@
+---
+# handlers file for mariadb-server
+- name: restart firewalld
+  systemd:
+    name: firewalld
+    state: restarted
+
+- name: restart httpd
+  systemd:
+    name: httpd
+    state: restarted
+
+- name: restart mysql
+  systemd:
+    name: mariadb
+    state: restarted
+

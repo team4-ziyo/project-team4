@@ -1,0 +1,9 @@
+---
+- hosts: prdx-db146.ziyotek4.local
+  roles:
+    - apache-server
+    - php-stack
+    - mariadb-server
+    - phpMyAdmin
+  become: yes
+
