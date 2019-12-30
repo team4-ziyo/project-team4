@@ -1,0 +1,31 @@
+---
+
+
+- name: Install Bind-utils man man-pages mlocate sysstat
+  hosts: all
+  become: true
+  tasks:
+    - name: Bind-utils
+      yum:
+        name: bind-utils
+        state: present
+    - name: man-pages
+      yum:
+        name: man-pages
+        state: present
+    - name: mlocate
+      yum:
+        name: mlocate
+        state: present
+    - name: sysstat
+      yum:
+        name: sysstat
+        state: latest
+    - name: autofs
+      yum:
+        name: autofs
+        state: present
+    - name: nfs-utils
+      yum: 
+        name: nfs-utils
+        state: present 

@@ -1,0 +1,10 @@
+- hosts: all
+  vars:
+    autofs_indirect_maps:
+    - name: autofs.test
+      path: /mnt/test
+      mounts: []
+  roles:
+    - role: ../..
+      become: true
+      become_method: sudo

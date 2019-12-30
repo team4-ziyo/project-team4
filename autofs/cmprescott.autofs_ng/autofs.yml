@@ -1,0 +1,7 @@
+---
+- name: let us run autofs
+  hosts: prdx-nfs14.ziyotek4.local
+  become: yes
+  user: ansible
+  roles:
+     - /home/ansible/project-team4/project-team4/autofs/cmprescott.autofs_ng

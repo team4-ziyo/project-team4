@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: true
+  vars:
+    - openldap_base: 'dc=ziyotek4,dc=local'
+    - pri_domain_name: ziyotek4.local
+  roles:
+    - role: ansible-etc-hosts
+    - role: ansible-openldap
