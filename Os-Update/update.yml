@@ -1,6 +1,6 @@
 ---
 - name: Converge
-  hosts: 192.168.2.240
+  hosts: all
   become: yes
   gather_facts: yes
 
